@@ -28,7 +28,7 @@ jobs:
     needs: read-from-list
     steps:
       - name: Debug
-        run: echo ${{ needs.read-list.outputs.list }}
+        run: echo ${{ needs.read-from-list.outputs.list }}
       
   test-operation:
     runs-on: ubuntu-latest
