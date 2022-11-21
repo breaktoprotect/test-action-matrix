@@ -1,2 +1,1 @@
-import sys
-sys.exit("['test1', 'test2', 'test3']")
+print("['test1', 'test2', 'test3']")
