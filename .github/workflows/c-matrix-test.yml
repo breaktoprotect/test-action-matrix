@@ -13,10 +13,22 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  job:
+  read-from-list:
     runs-on: ubuntu-latest
+    outputs:
+      output-list: ${{ steps.read-list-step.outputs.list }}
+    steps:
+      - name: Check out the list file
+        uses: actions/checkout@v3
+      - name: Read from list file
+        id: read-list-step
+        run: echo "list=$(python3 read_list.py)" >> $GITHUB_OUTPUT
+      
+  test-operation:
+    runs-on: ubuntu-latest
+    needs: read-from-list
     strategy:
       matrix:
-        run: ['run1', 'run2', 'run3']
+        run: ${{ needs.read-from-list.outputs.list }}
     steps:
     - run: echo Run ${{ matrix.run }}
