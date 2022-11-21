@@ -23,12 +23,18 @@ jobs:
       - name: Read from list file
         id: read-list-step
         run: echo "list=$(python3 read_list.py)" >> $GITHUB_OUTPUT
+  debug-job:
+    runs-on: ubuntu-latest
+    needs: read-from-list
+    steps:
+      - name: Debug
+        run: echo ${{ needs.read-list.outputs.list }}
       
   test-operation:
     runs-on: ubuntu-latest
     needs: read-from-list
     strategy:
       matrix:
-        run: ${{ needs.read-from-list.outputs.list }}
+        run: echo ${{ needs.read-from-list.outputs.list }}
     steps:
     - run: echo Run ${{ matrix.run }}
